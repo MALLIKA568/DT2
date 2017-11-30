@@ -14,6 +14,8 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.niit.Backend.model.Blog;
+import com.niit.Backend.model.Forum;
 import com.niit.Backend.model.User;
 
 @Configuration
@@ -54,8 +56,10 @@ public class Config {
 		
 		sessionBuilder.addProperties(getHibernateProperties());
 		sessionBuilder.addAnnotatedClass(User.class);
+		sessionBuilder.addAnnotatedClass(Blog.class);
 
-	
+		sessionBuilder.addAnnotatedClass(Forum.class);
+
 		return sessionBuilder.buildSessionFactory();
 	}
 	

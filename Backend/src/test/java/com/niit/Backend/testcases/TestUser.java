@@ -11,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.niit.Backend.dao.UserDAO;
+
 import com.niit.Backend.model.User;
-
-
 
 public class TestUser 
 {
@@ -44,15 +43,15 @@ public class TestUser
 	{
 		log.info("Add User Test started");
 		
-		user.setUsername("admin");
-		user.setFirst_name("Test");
-		user.setLast_name("");
-		user.setDob(new Date());
-		user.setGender('M');
-		user.setMail_id("admin@gmail.com");
-		user.setPassword("admin");
+		user.setUsername("mallika");
+		user.setFirst_name("malli");
+		user.setLast_name("podapati");
+		user.setDob(new Date(01/07/1996));
+		user.setGender('F');
+		user.setMail_id("mallika@gmail.com");
+		user.setPassword("mallika");
 		user.setStatus('N');
-		user.setRole("ADMIN");
+		user.setRole("STUDENT");
 		
 		userDAO.addUser(user);
 		log.info("Add User Test end");
@@ -61,7 +60,7 @@ public class TestUser
 	public void getUserDetails()
 	{
 		log.info("Get User Details Started");
-		String userName = "testuser";
+		String userName = "admin";
 		user = userDAO.getUser(userName);
 		System.out.println("Name - "+user.getFirst_name());
 		System.out.println("Date - "+user.getDob());
@@ -75,8 +74,8 @@ public class TestUser
 	public void validateUser()
 	{
 		log.info("Validate User Started");
-		String userName = "testuser";
-		String password = "testuser";
+		String userName = "admin";
+		String password = "admin";
 		boolean value = userDAO.validateUser(userName, password);
 		if(value)
 			System.out.println("Valid");
@@ -88,7 +87,7 @@ public class TestUser
 	public void deleteUser()
 	{
 		log.info("Delete Success initiated.");
-		user = userDAO.getUser("testuser");
+		user = userDAO.getUser("admin");
 		userDAO.deleteUser(user);
 		log.info("Delete Success");
 	}
@@ -105,14 +104,14 @@ public class TestUser
 		}
 	}
 	
-	public static void main(String[] args) 
+	public static void main(String args[]) 
 	{
 		TestUser tuser = new TestUser();
-		tuser.testAdd();
-//		tuser.getUserDetails();
-//		tuser.validateUser();
-//		tuser.deleteUser();
-//		tuser.list();
+	//	tuser.testAdd();
+	//	tuser.getUserDetails();
+//      tuser.validateUser();
+		tuser.deleteUser();
+	//tuser.list();
 		
 		System.out.println("Success");
 	}

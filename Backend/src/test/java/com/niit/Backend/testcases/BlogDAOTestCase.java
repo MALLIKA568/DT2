@@ -1,54 +1,91 @@
 package com.niit.Backend.testcases;
 
-import static org.junit.Assert.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.niit.Backend.dao.BlogDAO;
 import com.niit.Backend.model.Blog;
+import com.niit.Backend.model.User;
 
-
-
-public class BlogDAOTestCase
+public class BlogDAOTestCase 
 {
+	Logger log = LoggerFactory.getLogger(BlogDAOTestCase.class);
 	
-	static BlogDAO blogDAO;
+	@Autowired
+	BlogDAO blogDAO;
 	
+	@Autowired
+	Blog blog;
 	
-	@BeforeClass
-	public static void initalize()
-	{
-		System.out.println("Starting into Initializaed Blog Test case ");
-		
-		AnnotationConfigApplicationContext annotationConfigAppContext=new AnnotationConfigApplicationContext();
-		annotationConfigAppContext.scan("com.niit.Backend");
-		annotationConfigAppContext.refresh();
-		
-		blogDAO=(BlogDAO)annotationConfigAppContext.getBean("blogDAO");
+	@Autowired
+	AnnotationConfigApplicationContext context;
 	
-		System.out.println("Ending into Initializaed Blog Test case ");
-	}
-
-	@Test
-	public void createBlogTest() 
+	public BlogDAOTestCase()
 	{
 		
-		System.out.println("Starting into Creating Blog Test case ");
-		Blog blog=new Blog();
-		
-		blog.setBlogId(1001);
-		blog.setBlogName("Jithin");
-		blog.setBlogContent("Jithin is studying in niit with konkepudi");
-		blog.setUserid("jtnrdy@gmail.com");
-		blog.setCreateDate(new java.util.Date());
-		blog.setStatus("NA");
-		blog.setLikes(0);
-		
-		assertTrue("Problem in blog creation",blogDAO.createBlog(blog));
-		
-		System.out.println("Ending... into  Create Blog Test case ");
-	}
+		context = new AnnotationConfigApplicationContext();
+		context.scan("com.niit.Backend");
+		context.refresh();
 
+		blogDAO = (BlogDAO) context.getBean("blogDAO");
+		blog = (Blog) context.getBean("blog");
+		
+	}
+   public void blogAdd()
+   {
+	   log.info("Add blog Test started");
+	  
+	   blog.setDescription("sdfghgjdkdkluruighfkjdsfdks");
+	   blog.setUsername("mallika");
+	   blog.setBlog_title("aaaaaa");
+	   blog.setDate_time("DATE_TIME");
+	   
+	   blogDAO.addBlog(blog);
+	   log.info("Add Blog Test end");
+   }
+   public void UpdateBlog()
+  	{
+  		log.info("Update Success initiated.");
+  		blog = blogDAO.getBlog("testBlog");
+  		blogDAO.updateBlog(blog);
+  		log.info("Update Success");
+  	}
+   public void deleteBlog()
+	{
+		log.info("Delete Success initiated.");
+		blog = blogDAO.getBlog("testBlog");
+		blogDAO.deleteBlog(blog);
+		log.info("Delete Success");
+	}
+  
+   public void list()
+	{
+		log.info("List Users");
+		List<Blog> list = blogDAO.getAllBlogs();
+		int size = list.size();
+		for(int index = 0; index < size; index++)
+		{
+			System.out.print("username = "+list.get(index).getUsername());
+			System.out.println("\t Blog_title = "+list.get(index).getBlog_title());
+		}
+	}
+   public static void main(String[] args) 
+	{
+	   BlogDAOTestCase tblog = new BlogDAOTestCase ();
+//		tblog.blogAdd();
+	//tblog.getBlogDetails();
+//	tblog.UpdateBlog();
+//		tblog.deleteBlog();
+		tblog.list();
+		
+		System.out.println("Success");
+	}
+   
 }
