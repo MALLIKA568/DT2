@@ -79,11 +79,11 @@ public class BlogDAOTestCase
    public static void main(String[] args) 
 	{
 	   BlogDAOTestCase tblog = new BlogDAOTestCase ();
-//		tblog.blogAdd();
+		tblog.blogAdd();
 	//tblog.getBlogDetails();
 //	tblog.UpdateBlog();
 //		tblog.deleteBlog();
-		tblog.list();
+		//tblog.list();
 		
 		System.out.println("Success");
 	}

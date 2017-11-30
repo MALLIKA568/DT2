@@ -44,9 +44,9 @@ public class ForumTest
 		   forum.setDate_time("DATE_TIME");
 		   
 		 
-		   log.info("Add Blog Test end");
+		   log.info("Add Forum Test end");
 	}
-	public void deleteBlog(int id)
+	public void deleteForum(int id)
 	{
 		log.info("Delete Success initiated.");
 		forum = forumDAO.getForum(id);
@@ -62,11 +62,11 @@ public class ForumTest
 	  	}
 	public static void main(String[] args) 
 	{
-	   BlogDAOTestCase tblog = new BlogDAOTestCase ();
-//		tblog.ForumAdd();
+		ForumTest tforum = new ForumTest ();
+	tforum.addforum();
 	
 
-//		tblog.deleteBlog();
+//		tforum.deleteForum();
 	
 		
 		System.out.println("Success");
