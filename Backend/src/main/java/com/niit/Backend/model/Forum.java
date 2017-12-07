@@ -1,5 +1,7 @@
 package com.niit.Backend.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,56 +19,58 @@ import org.springframework.stereotype.Component;
 public class Forum extends Domine
 {
 	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	private String forum_id;
-	@Lob
-	private String description;
-	private String username;
-	private String date_time;
-	@Lob
-	private String rejected;
-	private char status;
-	public int getId() {
-		return id;
+	int forumId;
+	
+	String forumName;
+	String forumContent;
+	String username;
+	String status;
+	
+	
+	Date createDate;
+	
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
-	public String getForum_id() {
-		return forum_id;
+	public int getForumId() 
+	{
+		return forumId;
 	}
-	public void setForum_id(String forum_id) {
-		this.forum_id = forum_id;
+	public void setForumId(int forumId) 
+	{
+		this.forumId = forumId;
 	}
-	public String getDescription() {
-		return description;
+	public String getForumName() 
+	{
+		return forumName;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setForumName(String forumName) 
+	{
+		this.forumName = forumName;
 	}
-	public String getUsername() {
+	public String getForumContent() 
+	{
+		return forumContent;
+	}
+	public void setForumContent(String forumContent) 
+	{
+		this.forumContent = forumContent;
+	}
+	public String getUsername() 
+	{
 		return username;
 	}
-	public void setUsername(String username) {
+	public void setUsername(String username) 
+	{
 		this.username = username;
 	}
-	public String getDate_time() {
-		return date_time;
-	}
-	public void setDate_time(String date_time) {
-		this.date_time = date_time;
-	}
-	public String getRejected() {
-		return rejected;
-	}
-	public void setRejected(String rejected) {
-		this.rejected = rejected;
-	}
-	public char getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(char status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	

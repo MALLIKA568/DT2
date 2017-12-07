@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,103 +18,40 @@ import com.niit.Backend.model.User;
 
 public class TestUser 
 {
-	Logger log = LoggerFactory.getLogger(TestUser.class);
+static UserDAO userDAO;
 	
-	@Autowired
-	UserDAO userDAO;
-	
-	@Autowired
-	User user;
-	
-	@Autowired
-	AnnotationConfigApplicationContext context;
-	
-	public TestUser()
+	@BeforeClass
+	public static void initialize()
 	{
-		
-		context = new AnnotationConfigApplicationContext();
+		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
 		context.scan("com.niit.Backend");
 		context.refresh();
+		
+		userDAO=(UserDAO)context.getBean("userDAO");
+	}
+	
+	
 
-		userDAO = (UserDAO) context.getBean("userDAO");
-		user = (User) context.getBean("user");
-		
+	@Test
+	public void addUserTest()
+	{
+		User user=new User();
+		 user.setUsername("Raaji");
+		 user.setFirstname("Raaji");
+		 user.setLastname("Papanaboina");
+		 user.setPassword("0675");
+		 user.setEmailId("rajipapanaboina@gmail.com");
+		 user.setRole("Admin");
+		 user.setIsOnline("N");
+		assertTrue("Problem in Inserting User",userDAO.addUser(user));
+	
 	}
 	
-	public void testAdd()
+	@Test
+	public void isOnlineTest()
 	{
-		log.info("Add User Test started");
-		
-		user.setUsername("mallika");
-		user.setFirst_name("malli");
-		user.setLast_name("podapati");
-		user.setDob(new Date(01/07/1996));
-		user.setGender('F');
-		user.setMail_id("mallika@gmail.com");
-		user.setPassword("mallika");
-		user.setStatus('N');
-		user.setRole("STUDENT");
-		
-		userDAO.addUser(user);
-		log.info("Add User Test end");
+		User user=userDAO.getUser("Raaji");
+		assertTrue("Problem in assertion..",userDAO.updateOnlineStatus("Y", user));
 	}
-	
-	public void getUserDetails()
-	{
-		log.info("Get User Details Started");
-		String userName = "admin";
-		user = userDAO.getUser(userName);
-		System.out.println("Name - "+user.getFirst_name());
-		System.out.println("Date - "+user.getDob());
-		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-	       Date dateobj = user.getDob();
-	       String datetime = df.format(dateobj).toString();
-	       System.out.println("Date - "+datetime);
-		log.info("Get User Ended");
-	}
-	
-	public void validateUser()
-	{
-		log.info("Validate User Started");
-		String userName = "admin";
-		String password = "admin";
-		boolean value = userDAO.validateUser(userName, password);
-		if(value)
-			System.out.println("Valid");
-		else
-			System.out.println("Invalid");
-		log.info("Validate User Ended");
-	}
-	
-	public void deleteUser()
-	{
-		log.info("Delete Success initiated.");
-		user = userDAO.getUser("admin");
-		userDAO.deleteUser(user);
-		log.info("Delete Success");
-	}
-	
-	public void list()
-	{
-		log.info("List Users");
-		List<User> list = userDAO.getUserList();
-		int size = list.size();
-		for(int index = 0; index < size; index++)
-		{
-			System.out.print("Name = "+list.get(index).getFirst_name());
-			System.out.println("\t Email = "+list.get(index).getMail_id());
-		}
-	}
-	
-	public static void main(String args[]) 
-	{
-		TestUser tuser = new TestUser();
-	//	tuser.testAdd();
-	//	tuser.getUserDetails();
-//      tuser.validateUser();
-		tuser.deleteUser();
-	//tuser.list();
-		
-		System.out.println("Success");
-	}
+
 }
