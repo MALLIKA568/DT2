@@ -5,7 +5,9 @@ import javax.persistence.Transient;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Domine {
+public class Domain
+{
+
 	@Transient
 	public String errorCode;
 

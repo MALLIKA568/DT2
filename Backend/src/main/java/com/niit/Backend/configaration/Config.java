@@ -14,70 +14,72 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.niit.Backend.dao.BlogDAO;
-import com.niit.Backend.dao.UserDAO;
-import com.niit.Backend.daoimpl.BlogDAOImpl;
-import com.niit.Backend.daoimpl.UserDAOImpl;
 import com.niit.Backend.model.Blog;
+import com.niit.Backend.model.BlogComment;
+import com.niit.Backend.model.Event;
+import com.niit.Backend.model.FileUpload;
 import com.niit.Backend.model.Forum;
+import com.niit.Backend.model.ForumReply;
+import com.niit.Backend.model.Friend;
+import com.niit.Backend.model.Job;
+import com.niit.Backend.model.JobApplied;
 import com.niit.Backend.model.User;
 
-
 @Configuration
-@EnableTransactionManagement
 @ComponentScan("com.niit.Backend")
-
-public class Config 
+@EnableTransactionManagement
+public class Config
 {
-	   //1.Creating a DataSource Object which is used for LocalSessionFactory
-		public DataSource getOracleDataSource()
+	
+		@Bean(name ="dataSource")
+		public DataSource getDataSource()
 		{
-			DriverManagerDataSource driverManagerDataSource=new DriverManagerDataSource();
-			driverManagerDataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-			driverManagerDataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
-			driverManagerDataSource.setUsername("raaji");
-			driverManagerDataSource.setPassword("raaji");
-			return driverManagerDataSource;
+			DriverManagerDataSource dataSource = new DriverManagerDataSource();
+			dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+			dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
+			dataSource.setUsername("system");
+			dataSource.setPassword("mallika");
+			
+			return dataSource;
 		}
 		
-		//2.Creating Hibernate Properties which is used by LocalSessionFactory
-		public Properties getHibernateProperties()
+		private Properties getHibernateProperties()
 		{
-			Properties properties=new Properties();
-			properties.setProperty("hibernate.hbm2ddl.auto", "update");
-			properties.put("hibernate.dialect","org.hibernate.dialect.Oracle10gDialect");
+			Properties properties = new Properties();
+			
+			properties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
+			properties.put("hibernate.show_sql", "true");
+     		properties.put("hibernate.hbm2ddl.auto", "update");
+			
 			return properties;
 		}
 		
-		@Bean
-		public SessionFactory getSessionFactory()
+		@Autowired
+		@Bean(name = "sessionFactory")
+		public SessionFactory getSessionFactory(DataSource dataSource)
 		{
-			LocalSessionFactoryBuilder localSessionFactoryBuilder=new LocalSessionFactoryBuilder(getOracleDataSource());
-			localSessionFactoryBuilder.addProperties(getHibernateProperties());
-			localSessionFactoryBuilder.addAnnotatedClass(Blog.class);
-			localSessionFactoryBuilder.addAnnotatedClass(User.class);
-			System.out.println("SessionFactory Bean Created");
-			return localSessionFactoryBuilder.buildSessionFactory();
+			LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+			
+			sessionBuilder.addProperties(getHibernateProperties());
+			sessionBuilder.addAnnotatedClass(User.class);
+			sessionBuilder.addAnnotatedClass(Blog.class);
+			sessionBuilder.addAnnotatedClass(Job.class);
+			sessionBuilder.addAnnotatedClass(JobApplied.class);
+			sessionBuilder.addAnnotatedClass(Event.class);
+			sessionBuilder.addAnnotatedClass(BlogComment.class);
+			sessionBuilder.addAnnotatedClass(Forum.class);
+			sessionBuilder.addAnnotatedClass(ForumReply.class);
+			sessionBuilder.addAnnotatedClass(Friend.class);
+			sessionBuilder.addAnnotatedClass(FileUpload.class);
+			
+			return sessionBuilder.buildSessionFactory();
 		}
 		
-		@Bean
-		public HibernateTransactionManager getHibernateTransactionManager(SessionFactory sessionFactory)
+		@Autowired
+		@Bean(name = "transactionManager")
+		public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory)
 		{
-			return new HibernateTransactionManager(sessionFactory);
-		}
-		
-		@Bean
-		public BlogDAO getBlogDAO(SessionFactory sessionFactory)
-		{
-			System.out.println("Blog DAO object Created");
-			return new BlogDAOImpl(sessionFactory);
-		}
-		
-		@Bean
-		public UserDAO getUserDAO(SessionFactory sessionFactory)
-		{
-			System.out.println("User DAO object Created");
-			return new UserDAOImpl(sessionFactory);
+			HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
+			return transactionManager;
 		}
 }
-
