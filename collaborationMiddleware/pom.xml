@@ -5,22 +5,20 @@
   <artifactId>collaborationMiddleware</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>collaborationControllers Maven Webapp</name>
+  <name>collaborationMiddleware Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  <dependencies>
-
+ <dependencies>
+       <dependency>
+         <groupId>com.niit</groupId>
+  <artifactId>Backend</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+       </dependency>
+       
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
-		</dependency>
-
-		<!-- Dependency of BackEnd in Controllers -->
-		<dependency>
-			<groupId>com.niit</groupId>
-			<artifactId>BackEnd</artifactId>
-			<version>1.0.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->

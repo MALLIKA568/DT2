@@ -41,13 +41,13 @@ public class TestUser
 	{
 		log.info("Add User Test started");
 		
-		user.setUsername("srinu");
-		user.setFirst_name("srinu");
+		user.setUsername("malli");
+		user.setFirst_name("podapati");
 		user.setLast_name("");
 		user.setDob(new Date());
-		user.setGender('M');
-		user.setMail_id("srinu@gmail.com");
-		user.setPassword("srinu");
+		user.setGender('f');
+		user.setMail_id("malli@gmail.com");
+		user.setPassword("malli ");
 		user.setStatus('N');
 		user.setRole("ADMIN");
 		
